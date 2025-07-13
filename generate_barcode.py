@@ -11,7 +11,9 @@ def generate_barcode():
     prod_name = data.get('productName')
     category = data.get('category')
     
-    abbr = category
+    abbr = {
+        "ไฟฟ้า":"EL","อาหาร":"FO","เครื่องดื่ม":"DR","เครื่องใช้":"UT","ของเล่น":"PL"
+    }.get(category, "XX")
     
     code = abbr + str(random.randint(10000,99999))
     
