@@ -12,7 +12,7 @@ def generate_barcode():
     category = data.get('category')
     
     abbr = {
-        "ไฟฟ้า":"EL","อาหาร":"FO","เครื่องดื่ม":"DR","เครื่องใช้":"UT","ของเล่น":"PL"
+        "ไฟฟ้า":"01","เครื่องกล":"02","ของทั่วไป":"03","เครื่องใช้":"04","ของเล่น":"05"
     }.get(category, "XX")
     
     code = abbr + str(random.randint(10000,99999))
