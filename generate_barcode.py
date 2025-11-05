@@ -10,19 +10,29 @@ def generate_barcode():
     data = request.json
     prod_name = data.get('productName')
     category = data.get('category')
-    
+
+    # กำหนดรหัสย่อของหมวดสินค้า
     abbr = {
-        "ไฟฟ้า":"01","แมคคานิค":"02","ทั่วไป":"03"
+        "ไฟฟ้า": "01",
+        "แมคคานิค": "02",
+        "ทั่วไป": "03"
     }.get(category, "XX")
-    
-    code = abbr + str(random.randint(100000,999999))
-    
+
+    # สร้างรหัสบาร์โค้ด 8 หลัก (2 หลักจากหมวด + 6 หลักสุ่ม)
+    code = abbr + str(random.randint(100000, 999999))
+
+    # สร้างภาพบาร์โค้ด Code39 โดยไม่มี checksum
     buf = io.BytesIO()
-    bc = barcode.get('code39', code, writer=ImageWriter())
+    bc = barcode.get('code39', code, writer=ImageWriter(), add_checksum=False)
     bc.write(buf)
+
+    # แปลงเป็น base64 เพื่อส่งกลับ
     b64 = base64.b64encode(buf.getvalue()).decode()
-    
-    return jsonify({"barcodeCode": code, "imageBase64": b64})
+
+    return jsonify({
+        "barcodeCode": code,
+        "imageBase64": b64
+    })
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
