@@ -20,7 +20,9 @@ def generate_barcode():
     code = abbr + str(random.randint(100000, 999999))
     
     buf = io.BytesIO()
-    bc = barcode.get('code39', code, writer=ImageWriter())  # ❌ ไม่ต้องใส่ add_checksum
+    # ✅ สร้าง class เอง แล้วปิด checksum
+    code39 = barcode.get_barcode_class('code39')
+    bc = code39(code, writer=ImageWriter(), add_checksum=False)
     bc.write(buf)
     
     b64 = base64.b64encode(buf.getvalue()).decode()
