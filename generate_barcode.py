@@ -18,7 +18,7 @@ def generate_barcode():
     code = abbr + str(random.randint(100000,999999))
     
     buf = io.BytesIO()
-    bc = barcode.get('code39', code, writer=ImageWriter(),add_checksum=False)
+    bc = barcode.get('code39', code, writer=ImageWriter())
     bc.write(buf)
     b64 = base64.b64encode(buf.getvalue()).decode()
     
