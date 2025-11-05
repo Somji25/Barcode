@@ -12,18 +12,23 @@ def generate_barcode():
     category = data.get('category')
     
     abbr = {
-        "ไฟฟ้า":"01","แมคคานิค":"02","ทั่วไป":"03"
+        "ไฟฟ้า": "01",
+        "แมคคานิค": "02",
+        "ทั่วไป": "03"
     }.get(category, "XX")
     
-    code = abbr + str(random.randint(100000,999999))
+    code = abbr + str(random.randint(100000, 999999))
     
     buf = io.BytesIO()
-    bc = barcode.get('code39', code, writer=ImageWriter(),add_checksum=False)
+    bc = barcode.get('code39', code, writer=ImageWriter())  # ❌ ไม่ต้องใส่ add_checksum
     bc.write(buf)
+    
     b64 = base64.b64encode(buf.getvalue()).decode()
     
-    return jsonify({"barcodeCode": code, "imageBase64": b64})
+    return jsonify({
+        "barcodeCode": code,
+        "imageBase64": b64
+    })
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
-
