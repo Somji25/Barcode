@@ -12,10 +12,10 @@ def generate_barcode():
     category = data.get('category')
     
     abbr = {
-        "ไฟฟ้า":"01","เครื่องกล":"02","ของทั่วไป":"03","เครื่องใช้":"04","ของเล่น":"05"
+        "ไฟฟ้า":"01","แมคคานิค":"02","ทั่วไป":"03"
     }.get(category, "XX")
     
-    code = abbr + str(random.randint(10000,99999))
+    code = abbr + str(random.randint(100000,999999))
     
     buf = io.BytesIO()
     bc = barcode.get('code39', code, writer=ImageWriter())
